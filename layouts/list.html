@@ -1,0 +1,19 @@
+{{ define "main" }}
+    <article class="pb-5 text-center">
+        <header>
+            <h1>{{.Title}}</h1>
+        </header>
+        {{.Content}}
+    </article>
+    {{ range .Pages }}
+
+    <article>
+        <h2><a href="{{.Permalink}}">{{.Title}}</a></h2>
+        <p>Date: {{.Date.Format "02/01/2006"}}</p>
+        {{ .Summary }}
+        <p>Read: <a href="{{.Permalink}}">{{.Title}}</a></p>
+    </article>
+
+
+    {{ end }}
+{{ end }}
