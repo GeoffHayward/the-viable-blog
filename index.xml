@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Welcome to the Viable Blog on The Viable Blog</title>
+    <link>https://viable.blog/</link>
+    <description>Recent content in Welcome to the Viable Blog on The Viable Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language><atom:link href="https://viable.blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://viable.blog/error/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://viable.blog/error/</guid>
+      <description>404 - Page not found The page you are looking for is not at this address.</description>
+    </item>
+    
+  </channel>
+</rss>
