@@ -1,53 +1,101 @@
-# Workflow to build and deploy site to Github Pages using Hugo
+name: Production Orchestrate, Build and Deploy
 
-# Name of Workflow
-name: github pages
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
-  deploy:
-    # The type of runner that the job will run on
+  infrastructure:
+    name: 'Orchestrate Infrastructure'
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+      UPTIMEROBOT_API_KEY: ${{ secrets.UPTIMEROBOT_API_KEY }}
+      TF_VAR_cloudflare_zone_id: ${{ secrets.TF_VAR_CLOUDFLARE_ZONE_ID }}
+      TF_VAR_google_site_verification_code: ${{ secrets.TF_VAR_GOOGLE_SITE_VERIFICATION_CODE }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-    # Step 1 - Checks-out your repository under $GITHUB_WORKSPACE
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-          submodules: true  # Fetch Hugo themes
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      # Step 1 - Checks-out your repository under $GITHUB_WORKSPACE
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    # Step 2 - Sets up the latest version of Hugo
-    - name: Setup Hugo
-      uses: peaceiris/actions-hugo@v2
-      with:
+
+      # Step 2 - Sets up the latest version of Terraform
+      - name: Terraform setup
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '0.14.x'
+          terraform_wrapper: false
+
+      # Step 3 - Check the formatting
+      - name: Terraform version
+        run: terraform version -no-color
+        working-directory: infrastructure/
+
+      # Step 4 - Check the formatting
+      - name: Terraform fmt
+        run: terraform fmt -check -no-color
+        working-directory: infrastructure/
+        continue-on-error: true
+
+      # Step 5 - Initialise Terraform
+      - name: Terraform init
+        run: terraform init -no-color
+        working-directory: infrastructure/
+
+      # Step 6 - Check the project's Terraform is valid
+      - name: Terraform validate
+        run: terraform validate -no-color
+        working-directory: infrastructure/
+
+      # Step 7 - Check the change is likely to work
+      - name: Terraform plan
+        run: terraform plan -out=tfplan -no-color
+        working-directory: infrastructure/
+
+      # Step 8 - Update Infrastructure
+      - name: Terraform apply
+        run: terraform apply tfplan -no-color
+        working-directory: infrastructure/
+
+  deploy:
+    name: 'Build and Deploy Website'
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1 - Checks-out your repository under $GITHUB_WORKSPACE
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Step 2 - Sets up the latest version of Hugo
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
           hugo-version: 'latest'
 
-    # Step 3 - Clean and don't fail
-    - name: Clean public directory
-      run: rm -rf public
+      # Step 3 - Clean and don't fail
+      - name: Clean public directory
+        run: rm -rf public
 
-    # Step 4 - Builds the site using the latest version of Hugo
-    # Also specifies the theme we want to use
-    - name: Build
-      run: hugo
+      # Step 4 - Builds the site using the latest version of Hugo
+      - name: Build
+        run: hugo
 
-    # Step 5 - Create name file
-    - name: Create cname file
-      run: echo 'viable.blog' > public/CNAME
+      # Step 5 - Create name file
+      - name: Create cname file
+        run: echo 'viable.blog' > public/CNAME
 
-    # Step 6 - Push our generated site to our gh-pages branch
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
+      # Step 6 - Push the generated site to the gh-pages branch
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
