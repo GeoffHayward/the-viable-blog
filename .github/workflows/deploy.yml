@@ -75,25 +75,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Step 2 - Sets up the latest version of Hugo
-      - name: Setup Hugo
+      # Step 2 - Setup Caching
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Step 3 - Setup node.js for Tailwind CSS
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      # Step 4 - Setup node.js for Tailwind CSS
+      - name: Install Tailwind and it's dependencies
+        run: npm install
+
+      # Step 5 - Sets up the latest version of Hugo
+      - name: Install Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: 'latest'
 
-      # Step 3 - Clean and don't fail
-      - name: Clean public directory
-        run: rm -rf public
-
-      # Step 4 - Builds the site using the latest version of Hugo
+      # Step 6 - Builds the site using the latest version of Hugo
       - name: Build
-        run: hugo
+        run: NODE_ENV=production hugo
 
-      # Step 5 - Create name file
+      # Step 7 - Create name file
       - name: Create cname file
         run: echo 'viable.blog' > public/CNAME
 
-      # Step 6 - Push the generated site to the gh-pages branch
+      # Step 8 - Push the generated site to the gh-pages branch
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

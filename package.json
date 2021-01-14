@@ -1,0 +1,12 @@
+{
+  "name": "the-viable-blog",
+  "version": "1.0.0",
+  "description": "Getting started guides.",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/typography": "^0.3.1",
+    "autoprefixer": "^10.2.1",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.0.2"
+  }
+}

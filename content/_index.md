@@ -1,6 +1,6 @@
 ---
-title: "Welcome to the Viable Blog"
+title: "Welcome"
 ---
-This is a very early version of the Viable Blog. 
+This is a very early version of The Viable Blog. 
 
 There is no content yet.

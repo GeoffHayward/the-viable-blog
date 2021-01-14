@@ -1,8 +1,11 @@
-<nav class="navbar navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="{{ .Site.BaseURL }}">Home</a>
+<nav class="bg-indigo-700 text-white shadow">
+    <div class="main-container">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+                </div>
+            </div>
         </div>
     </div>
 </nav>

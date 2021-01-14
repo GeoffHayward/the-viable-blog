@@ -6,7 +6,7 @@ terraform {
       version = "~> 3.0"
     }
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "2.17.0"
     }
     uptimerobot = {

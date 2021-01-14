@@ -3,6 +3,10 @@
 
 # Hugo
 public/
+resources/
+
+# Node
+node_modules/
 
 # Terraform
 **/.terraform/*
@@ -13,7 +17,6 @@ public/
 **/override.tf.json
 **/*_override.tf
 **/*_override.tf.json
-**/.terraform.lock.hcl
 
 # Envirionment Veribles
 **/environment.sh
