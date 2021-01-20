@@ -1,0 +1,9 @@
+{{ define "main" }}
+<section class="prose sm:prose-sm mx-auto">
+    <h1 id="title">{{ .Title }}</h1>
+    <p>{{ .Date.Format "January 2, 2006" }}</p>
+    <article>
+        {{ .Content }}
+    </article>
+</section>
+{{ end }}

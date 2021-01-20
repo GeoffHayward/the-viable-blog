@@ -1,7 +1,8 @@
 {
-  "name": "the-viable-blog",
-  "version": "1.0.0",
-  "description": "Getting started guides.",
+  "scripts": {
+    "watch": "NODE_ENV=development postcss scss/theme.scss -o assets/css/theme.css --watch",
+    "build": "NODE_ENV=production postcss scss/theme.scss -o assets/css/theme.css"
+  },
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",

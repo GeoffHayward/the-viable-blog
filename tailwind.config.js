@@ -2,7 +2,11 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
     purge: {
+        preserveHtmlElements: false,
         content: ["./layouts/**/*.html", "./content/**/*.md", "./content/**/*.html"],
+        options: {
+            keyframes: true
+        },
     },
     corePlugins: {
         container: false,
