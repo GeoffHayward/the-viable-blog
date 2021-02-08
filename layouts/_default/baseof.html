@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    {{- partial "head.html" . -}}
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{ .Title }}</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        {{ $syntax := resources.Get "css/syntax.css" | resources.ExecuteAsTemplate "syntax.css" . }}
+        {{ $build := resources.Get "css/build.css" | resources.ExecuteAsTemplate "build.css" . }}
+        {{ $styles := slice $syntax $build | resources.Concat "styles.css" | minify | fingerprint }}
+        <link rel="preload" href="{{ $styles.RelPermalink }}" as="style">
+        <link media="screen" rel="stylesheet" href="{{ $styles.RelPermalink }}" {{ printf "integrity=%q" $styles.Data.Integrity | safeHTMLAttr }}>
+
+    </head>
 
     <body class="bg-blue-50">
 

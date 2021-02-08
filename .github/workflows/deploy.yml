@@ -104,7 +104,7 @@ jobs:
 
       # Step 6 - Builds the site using the latest version of Hugo
       - name: Build
-        run: NODE_ENV=production hugo
+        run: NODE_ENV=production hugo --minify
 
       # Step 7 - Create name file
       - name: Create cname file

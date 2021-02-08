@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "watch": "NODE_ENV=development postcss scss/theme.scss -o assets/css/theme.css --watch",
-    "build": "NODE_ENV=production postcss scss/theme.scss -o assets/css/theme.css"
+    "watch": "NODE_ENV=development postcss scss/theme.scss -o assets/css/build.css --watch",
+    "build": "NODE_ENV=production postcss scss/theme.scss -o assets/css/build.css"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",

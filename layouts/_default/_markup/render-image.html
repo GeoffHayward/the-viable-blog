@@ -1,0 +1,9 @@
+{{ $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) }}
+<img
+    class="rounded-lg shadow-lg"
+    src="{{ .Destination | safeURL }}"
+    alt="{{ .Text}}"
+    loading="lazy"
+    width="{{ $image.Width }}"
+    height="{{ $image.Height }}"
+/>

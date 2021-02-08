@@ -16,6 +16,21 @@ module.exports = {
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
+            typography: {
+                DEFAULT: {
+                    css: {
+                        'code': {
+                            color: '#9F1239'
+                        },
+                        'code::before': {
+                            content: '""'
+                        },
+                        'code::after': {
+                            content: '""'
+                        }
+                    }
+                }
+            }
         },
     },
     variants: {},

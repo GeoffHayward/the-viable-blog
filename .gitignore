@@ -4,6 +4,7 @@
 # Hugo
 public/
 resources/
+**/build.css
 
 # Node
 node_modules/
