@@ -1,9 +1,19 @@
 {{ $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) }}
-<img
-    class="rounded-lg shadow-lg"
-    src="{{ .Destination | safeURL }}"
-    alt="{{ .Text}}"
-    loading="lazy"
-    width="{{ $image.Width }}"
-    height="{{ $image.Height }}"
-/>
+{{ $large := $image }}
+{{ $small := $image }}
+{{ if gt $image.Width 1200 }}
+    {{ $large = $image.Resize "1200x" }}
+{{ end }}
+{{ if gt $image.Width 640 }}
+    {{ $small = $image.Resize "640x" }}
+{{ end }}
+<a href="{{ $large.RelPermalink }}">
+    <img
+        class="rounded-lg shadow-lg"
+        src="{{ $small.RelPermalink }}"
+        alt="{{ .Text}}"
+        loading="lazy"
+        width="{{ $small.Width }}"
+        height="{{ $small.Height }}"
+    />
+</a>
